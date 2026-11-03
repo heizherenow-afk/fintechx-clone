@@ -1,0 +1,37 @@
+{
+  "name": "fintechx-clone",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Complete 1:1 clone of FintechX AI Finance & Investment website with all pages, fonts, SVGs, images, animations, and clean modular React / Tailwind components.",
+  "scripts": {
+    "start": "python server.py 3000",
+    "serve": "npx serve -l 3000 .",
+    "dev": "vite index-react.html",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.1",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.1",
+    "autoprefixer": "^10.4.19",
+    "postcss": "^8.4.38",
+    "tailwindcss": "^3.4.4",
+    "typescript": "^5.4.5",
+    "vite": "^5.3.1"
+  },
+  "keywords": [
+    "fintechx",
+    "framer",
+    "ai-finance",
+    "clone",
+    "landing-page",
+    "framer-motion",
+    "tailwind"
+  ],
+  "author": "Antigravity",
+  "license": "MIT"
+}
