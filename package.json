@@ -4,20 +4,23 @@
   "private": true,
   "description": "Complete 1:1 clone of FintechX AI Finance & Investment website with all pages, fonts, SVGs, images, animations, and clean modular React / Tailwind components.",
   "scripts": {
-    "start": "python server.py 3000",
-    "serve": "npx serve -l 3000 .",
-    "dev": "vite index-react.html",
+    "start": "vite preview --host 0.0.0.0 --port 3000",
+    "serve": "vite preview --host 0.0.0.0 --port 3000",
+    "dev": "vite --host 0.0.0.0 --port 3000",
     "build": "vite build"
   },
   "dependencies": {
+    "firebase": "^13.2.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
+    "@firebase/eslint-plugin-security-rules": "^0.0.2",
     "@types/react": "^18.3.1",
     "@types/react-dom": "^18.3.1",
     "@vitejs/plugin-react": "^4.3.1",
     "autoprefixer": "^10.4.19",
+    "eslint": "^10.14.0",
     "postcss": "^8.4.38",
     "tailwindcss": "^3.4.4",
     "typescript": "^5.4.5",

@@ -1,0 +1,44 @@
+{
+  "entities": {
+    "WebsiteSubmission": {
+      "title": "WebsiteSubmission",
+      "description": "Stores website URLs submitted by authenticated users from the hero get started input.",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "description": "UID of the authenticated user who submitted the website URL.",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "websiteUrl": {
+          "type": "string",
+          "description": "The website domain or URL entered by the user.",
+          "minLength": 3,
+          "maxLength": 256,
+          "pattern": "^(https?://)?([a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,}(/.*)?$"
+        },
+        "status": {
+          "type": "string",
+          "description": "Processing status of the website submission.",
+          "enum": ["pending", "completed"],
+          "minLength": 1,
+          "maxLength": 32
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when the website URL was submitted."
+        }
+      },
+      "required": ["uid", "websiteUrl", "status", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/submissions/{submissionId}": {
+      "schema": "WebsiteSubmission",
+      "description": "Stores website URL submissions linked to the authenticated user."
+    }
+  }
+}

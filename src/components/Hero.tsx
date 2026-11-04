@@ -1,6 +1,7 @@
 import React from "react";
 import { SITE_CONTENT } from "../data/content";
-import { ArrowRightIcon, BoltIcon, TrendingUpIcon } from "./icons/Icons";
+import { BoltIcon, TrendingUpIcon } from "./icons/Icons";
+import { HeroUrlField } from "./HeroUrlField";
 
 export const Hero: React.FC = () => {
   const { hero } = SITE_CONTENT;
@@ -31,21 +32,9 @@ export const Hero: React.FC = () => {
           {hero.subheadline}
         </p>
 
-        {/* CTA Buttons */}
-        <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
-          <a
-            href={hero.primaryCta.href}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-3.5 text-base font-semibold rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-500 hover:from-blue-500 hover:to-indigo-500 text-white shadow-xl shadow-blue-500/25 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
-          >
-            <span>{hero.primaryCta.text}</span>
-            <ArrowRightIcon className="w-4 h-4" />
-          </a>
-          <a
-            href={hero.secondaryCta.href}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 text-base font-semibold rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
-          >
-            <span>{hero.secondaryCta.text}</span>
-          </a>
+        {/* Hero URL Field with embedded Get Started button */}
+        <div className="mt-10 flex items-center justify-center">
+          <HeroUrlField />
         </div>
 
         {/* Hero Dashboard Preview Card */}

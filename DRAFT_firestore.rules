@@ -1,0 +1,75 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Global default-deny safety net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Primitive helpers
+    function isSignedIn() {
+      return request.auth != null && request.auth.token.email_verified == true;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() >= 1 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    // Validation Blueprint for WebsiteSubmission (synced with firebase-blueprint.json)
+    function isValidWebsiteSubmission(data) {
+      return data.keys().hasAll(['uid', 'websiteUrl', 'status', 'createdAt'])
+        && data.keys().hasOnly(['uid', 'websiteUrl', 'status', 'createdAt'])
+        && data.uid is string
+        && data.uid.size() >= 1
+        && data.uid.size() <= 128
+        && data.uid.matches('^[a-zA-Z0-9_\\-]+$')
+        && data.uid == request.auth.uid
+        && data.websiteUrl is string
+        && data.websiteUrl.size() >= 3
+        && data.websiteUrl.size() <= 256
+        && data.websiteUrl.matches('^(https?://)?([a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,}(/.*)?$')
+        && data.status is string
+        && data.status.size() >= 1
+        && data.status.size() <= 32
+        && (data.status == 'pending' || data.status == 'completed')
+        && data.createdAt is timestamp;
+    }
+
+    match /submissions/{submissionId} {
+      allow get: if isSignedIn()
+        && isValidId(submissionId)
+        && existing().uid == request.auth.uid;
+
+      allow list: if isSignedIn()
+        && existing().uid == request.auth.uid;
+
+      allow create: if isSignedIn()
+        && isValidId(submissionId)
+        && isValidWebsiteSubmission(incoming())
+        && incoming().status == 'pending'
+        && incoming().createdAt == request.time;
+
+      allow update: if isSignedIn()
+        && isValidId(submissionId)
+        && isValidWebsiteSubmission(incoming())
+        && existing().uid == request.auth.uid
+        && existing().status != 'completed'
+        && incoming().uid == existing().uid
+        && incoming().createdAt == existing().createdAt
+        && incoming().websiteUrl == existing().websiteUrl
+        && incoming().diff(existing()).affectedKeys().hasOnly(['status'])
+        && incoming().status == 'completed';
+
+      allow delete: if false;
+    }
+  }
+}
